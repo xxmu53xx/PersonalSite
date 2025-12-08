@@ -148,7 +148,7 @@ function App() {
                 name="John Wayne Largo"
                 title="Web Developer"
                 handle="johnlargo91"
-                status="Available for work"
+                status="Profile"
                 contactText="Contact Me"
                 avatarUrl="/image.png"
                 showUserInfo={true}
