@@ -1,2 +1,2 @@
 # PersonalSite
-Personal site for fun
+Personal Porfolio site 
