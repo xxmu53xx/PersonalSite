@@ -164,7 +164,7 @@ function App() {
                 <DecryptedText text="WAZAAAAAAP!" animateOn="view" speed={40} maxIterations={8} />
               </span>
               <h1 className="hero-name">
-                <DecryptedText text="John Wayne P. Largo" animateOn="view" speed={30} maxIterations={10} />
+                <DecryptedText text="John Wayne M. Largo" animateOn="view" speed={30} maxIterations={10} />
               </h1>
               <h2 className="hero-role">
                 <DecryptedText text="Web Developer" animateOn="view" speed={35} maxIterations={8} />
