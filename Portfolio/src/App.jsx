@@ -25,6 +25,37 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Scroll-based fade animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-visible')
+          entry.target.classList.remove('fade-out')
+        } else {
+          entry.target.classList.remove('fade-in-visible')
+          entry.target.classList.add('fade-out')
+        }
+      })
+    }, observerOptions)
+
+    // Small delay to ensure DOM is updated after tab switch
+    const timeoutId = setTimeout(() => {
+      const fadeElements = document.querySelectorAll('.fade-scroll')
+      fadeElements.forEach(el => observer.observe(el))
+    }, 50)
+
+    return () => {
+      clearTimeout(timeoutId)
+      observer.disconnect()
+    }
+  }, [activeSkillTab])
+
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -40,9 +71,11 @@ function App() {
   }
 
   const navItems = [
+    { label: "Home", href: "#hero", id: "hero" },
     { label: "About", href: "#about", id: "about" },
     { label: "Skills", href: "#skills", id: "skills" },
     { label: "Projects", href: "#projects", id: "projects" },
+    { label: "Education", href: "#education", id: "education" },
     { label: "Awards", href: "#awards", id: "awards" },
     { label: "Contact", href: "#contact", id: "contact" },
   ]
@@ -139,7 +172,7 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <section className="hero">
+      <section className="hero" id="hero">
         <div className="container hero-content">
           <div className="hero-top">
             {/* Profile Card */}
@@ -179,9 +212,16 @@ function App() {
                 />
               </p>
               <div className="hero-cta">
-                
                 <a href="mailto:johnlargo91@gmail.com" className="btn btn-outline cursor-target">
                   Get In Touch
+                </a>
+                <a href="/Resume.pdf" download="JohnWayneLargo_Resume.pdf" className="btn btn-primary cursor-target">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download Resume
                 </a>
               </div>
             </div>
@@ -350,7 +390,7 @@ function App() {
             
             <div className="skills-card-grid">
               {skillsData[activeSkillTab].map((skill, index) => (
-                <div key={index} className="skill-card cursor-target">
+                <div key={index} className="skill-card cursor-target fade-scroll">
                   <div className="skill-card-icon">
                     <img src={skill.icon} alt={skill.name} />
                   </div>
@@ -374,7 +414,7 @@ function App() {
           
           <div className="projects-grid">
             {/* Project 1 - TimEd */}
-            <div className="project-card cursor-target">
+            <div className="project-card cursor-target fade-scroll">
               <div className="project-info">
                 <div className="project-number">01</div>
                 <h3 className="project-title"><DecryptedText text="TimEd" animateOn="view" speed={40} maxIterations={8} /></h3>
@@ -412,7 +452,7 @@ function App() {
             </div>
             
             {/* Project 2 - WasteWise */}
-            <div className="project-card cursor-target">
+            <div className="project-card cursor-target fade-scroll">
               <div className="project-info">
                 <div className="project-number">02</div>
                 <h3 className="project-title"><DecryptedText text="WasteWise" animateOn="view" speed={40} maxIterations={8} /></h3>
@@ -451,119 +491,247 @@ function App() {
         </div>
       </section>
 
+      {/* Educational Background Section */}
+      <section className="education" id="education">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-number mono">04.</span>
+            <h2 className="section-title">EDUCATIONAL BACKGROUND</h2>
+          </div>
+          
+          <div className="education-timeline">
+            {/* Elementary */}
+            <div className="timeline-item fade-scroll">
+              <div className="timeline-connector">
+                <div className="timeline-dot"></div>
+                <div className="timeline-line"></div>
+              </div>
+              <div className="timeline-card cursor-target" style={{ backgroundImage: 'url(/CBS.jpg)' }}>
+                <div className="timeline-card-overlay"></div>
+                <div className="timeline-card-content">
+                  <span className="timeline-level">Elementary</span>
+                  <h3 className="timeline-school">
+                    <DecryptedText text="Cebu Bible Seminary - Christian Learning Center" animateOn="view" speed={25} maxIterations={10} />
+                  </h3>
+                  <p className="timeline-location">
+                    <DecryptedText text="San Isidro, Talisay City, Cebu" animateOn="view" speed={20} maxIterations={8} />
+                  </p>
+                  <span className="timeline-year">2015 - 2016</span>
+                </div>
+              </div>
+            </div>
+
+            {/* High School */}
+            <div className="timeline-item fade-scroll">
+              <div className="timeline-connector">
+                <div className="timeline-dot"></div>
+                <div className="timeline-line"></div>
+              </div>
+              <div className="timeline-card cursor-target" style={{ backgroundImage: 'url(/SSAT.jpg)' }}>
+                <div className="timeline-card-overlay"></div>
+                <div className="timeline-card-content">
+                  <span className="timeline-level">High School</span>
+                  <h3 className="timeline-school">
+                    <DecryptedText text="St. Scholastica's Academy - Tabunok" animateOn="view" speed={25} maxIterations={10} />
+                  </h3>
+                  <p className="timeline-location">
+                    <DecryptedText text="Tabunok, Talisay City, Cebu" animateOn="view" speed={20} maxIterations={8} />
+                  </p>
+                  <span className="timeline-year">2016 - 2022</span>
+                </div>
+              </div>
+            </div>
+
+            {/* College */}
+            <div className="timeline-item timeline-item-current fade-scroll">
+              <div className="timeline-connector">
+                <div className="timeline-dot timeline-dot-current"></div>
+              </div>
+              <div className="timeline-card cursor-target" style={{ backgroundImage: 'url(/CITU.jpg)' }}>
+                <div className="timeline-card-overlay"></div>
+                <div className="timeline-card-content">
+                  <span className="timeline-level">College</span>
+                  <h3 className="timeline-school">
+                    <DecryptedText text="Cebu Institute of Technology - University" animateOn="view" speed={25} maxIterations={10} />
+                  </h3>
+                  <p className="timeline-location">
+                    <DecryptedText text="N. Bacalso Avenue, Cebu City, Philippines" animateOn="view" speed={20} maxIterations={8} />
+                  </p>
+                  <span className="timeline-year">2022 - 2026</span>
+                  <span className="timeline-status">Currently Enrolled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Awards Section - With Glare Hover */}
       <section className="awards" id="awards">
         <div className="container">
           <div className="section-header">
-            <span className="section-number mono">04.</span>
+            <span className="section-number mono">05.</span>
             <h2 className="section-title">CERTIFICATIONS & AWARDS</h2>
           </div>
           
           <div className="awards-grid-wide">
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/AWSArc.png'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/AWSArc.png'])}>
                   <img src="/AWSArc.png" alt="AWS Architecture Certificate" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="AWS Architecture Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2025</span>
+                  <span className="award-year">2025</span>
                 </div>
               </div>
             </GlareHover>
             
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/AWSCloud.png'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/AWSCloud.png'])}>
                   <img src="/AWSCloud.png" alt="AWS Cloud Foundations Certificate" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="AWS Cloud Foundations Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2025</span>
+                  <span className="award-year">2025</span>
                 </div>
               </div>
             </GlareHover>
             
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/HackCert.jpg'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/HackCert.jpg'])}>
                   <img src="/HackCert.jpg" alt="Hackathon Finalist" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="Hackathon Finalist" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2025</span>
+                  <span className="award-year">2025</span>
                 </div>
               </div>
             </GlareHover>
             
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/HuwaweiCert.png'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/HuwaweiCert.png'])}>
                   <img src="/HuwaweiCert.png" alt="Huawei Certificate" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="Huawei Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2024</span>
+                  <span className="award-year">2024</span>
                 </div>
               </div>
             </GlareHover>
             
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/JavaCert.png'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/JavaCert.png'])}>
                   <img src="/JavaCert.png" alt="CodeChum Java Certificate" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="CodeChum Java Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2024</span>
+                  <span className="award-year">2024</span>
+                  <a href="https://citu.codechum.com/certificates/879" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
                 </div>
               </div>
             </GlareHover>
-            
+
             <GlareHover 
-              className="award-card-glare cursor-target"
+              className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
               borderColor="rgba(139, 92, 246, 0.3)"
               background="var(--bg-card)"
             >
-              <div className="award-card-inner" onClick={() => openLightbox(['/CCert.png'])}>
-                <div className="award-card-image">
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/HTMLCert.jpg'])}>
+                  <img src="/HTMLCert.jpg" alt="Introduction to HTML Certificate" />
+                  <div className="award-image-overlay"></div>
+                </div>
+                <div className="award-card-content">
+                  <h4><DecryptedText text="Introduction to HTML" animateOn="view" speed={30} maxIterations={8} /></h4>
+                  <span className="award-year">2024</span>
+                  <a href="https://www.sololearn.com/certificates/CC-EXFFXJAM" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
+                </div>
+              </div>
+            </GlareHover>
+
+            <GlareHover 
+              className="award-card-glare cursor-target fade-scroll"
+              glareColor="#9664f1"
+              glareOpacity={0.3}
+              borderColor="rgba(139, 92, 246, 0.3)"
+              background="var(--bg-card)"
+            >
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/SQLCert.png'])}>
+                  <img src="/SQLCert.png" alt="SQL Certificate" />
+                  <div className="award-image-overlay"></div>
+                </div>
+                <div className="award-card-content">
+                  <h4><DecryptedText text="SQL Certificate of Completion" animateOn="view" speed={30} maxIterations={8} /></h4>
+                  <span className="award-year">2024</span>
+                  <a href="https://drive.google.com/file/d/1oH9_mOEXsuV5pS_C3L3GwYffP7LwZ-Wh/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
+                </div>
+              </div>
+            </GlareHover>
+            
+            <GlareHover 
+              className="award-card-glare cursor-target fade-scroll"
+              glareColor="#9664f1"
+              glareOpacity={0.3}
+              borderColor="rgba(139, 92, 246, 0.3)"
+              background="var(--bg-card)"
+            >
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/CCert.png'])}>
                   <img src="/CCert.png" alt="C Programming Certificate" />
+                  <div className="award-image-overlay"></div>
                 </div>
                 <div className="award-card-content">
                   <h4><DecryptedText text="C Programming Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
-                  <span>2024</span>
+                  <span className="award-year">2024</span>
                 </div>
               </div>
             </GlareHover>
@@ -575,7 +743,7 @@ function App() {
       <section className="academics" id="academics">
         <div className="container">
           <div className="section-header">
-            <span className="section-number mono">05.</span>
+            <span className="section-number mono">06.</span>
             <h2 className="section-title">ACADEMIC PERFORMANCE</h2>
           </div>
           
@@ -611,55 +779,126 @@ function App() {
       {/* Contact Section */}
       <section className="contact" id="contact">
         <div className="container">
-          <div className="contact-content">
-            <div className="section-header" style={{ textAlign: 'center' }}>
-              <span className="section-number mono">06.</span>
-              <h2 className="section-title contact-title">LET'S CONNECT</h2>
+          <div className="section-header" style={{ textAlign: 'center' }}>
+            <span className="section-number mono">07.</span>
+            <h2 className="section-title contact-title">GET IN <span className="highlight">TOUCH</span></h2>
+          </div>
+          
+          <div className="contact-grid">
+            {/* Left Side - Contact Info */}
+            <div className="contact-info fade-scroll">
+              <h3 className="contact-info-title">
+                <DecryptedText text="Let's work together!" animateOn="view" speed={30} maxIterations={10} />
+              </h3>
+              <p className="contact-info-text">
+                <DecryptedText 
+                  text="Have a project in mind or want to collaborate? Feel free to reach out. I'm always open to discussing new opportunities."
+                  animateOn="view"
+                  speed={25}
+                  maxIterations={12}
+                  revealDirection="start"
+                />
+              </p>
+              
+              <div className="contact-details">
+                <a href="mailto:johnlargo91@gmail.com" className="contact-detail-item cursor-target">
+                  <div className="contact-detail-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </div>
+                  <span>johnlargo91@gmail.com</span>
+                </a>
+                
+                <div className="contact-detail-item">
+                  <div className="contact-detail-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <span>Talisay City, Cebu, Philippines</span>
+                </div>
+              </div>
+              
+              <div className="contact-socials">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="LinkedIn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="Facebook">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+                <a href="https://github.com/xxmu53xx" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="GitHub">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
             
-            <p className="contact-text">
-              <DecryptedText 
-                text="I'm currently looking for new opportunities and my inbox is always open. Whether you have a question or just want to say hi, I'll do my best to get back to you!"
-                animateOn="view"
-                speed={25}
-                maxIterations={12}
-                revealDirection="start"
-              />
-            </p>
-            
-            <div className="contact-links">
-              <a href="mailto:Johnlargo@gmail.com" className="contact-link cursor-target">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-                <span>Johnlargo91@gmail.com</span>
-              </a>
-              
-              <a href="tel:+639105380358" className="contact-link cursor-target">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <span>+63 910 538 0358</span>
-              </a>
-              
-              <a href="https://github.com/xxmu53xx" target="_blank" rel="noopener noreferrer" className="contact-link cursor-target">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                <span>GitHub</span>
-              </a>
-            </div>
-            
-            <div className="contact-cta">
-              <a href="mailto:Johnlargo91@gmail.com" className="btn btn-primary cursor-target">
+            {/* Right Side - Contact Form */}
+            <form 
+              className="contact-form fade-scroll" 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const subject = formData.get('subject');
+                const message = formData.get('message');
+                const body = `Hi, I'm ${name} (${email}).\n\n${message}`;
+                window.location.href = `mailto:johnlargo91@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+              }}
+            >
+              <div className="form-group">
+                <input 
+                  type="text" 
+                  name="name" 
+                  placeholder="Your Name" 
+                  required 
+                  className="form-input cursor-target"
+                />
+              </div>
+              <div className="form-group">
+                <input 
+                  type="email" 
+                  name="email" 
+                  placeholder="Your Email" 
+                  required 
+                  className="form-input cursor-target"
+                />
+              </div>
+              <div className="form-group">
+                <input 
+                  type="text" 
+                  name="subject" 
+                  placeholder="Subject" 
+                  required 
+                  className="form-input cursor-target"
+                />
+              </div>
+              <div className="form-group">
+                <textarea 
+                  name="message" 
+                  placeholder="Your Message" 
+                  rows="5" 
+                  required 
+                  className="form-textarea cursor-target"
+                ></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary form-submit cursor-target">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="22" y1="2" x2="11" y2="13"/>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
                 Send Message
-              </a>
-            </div>
+              </button>
+            </form>
           </div>
         </div>
       </section>
