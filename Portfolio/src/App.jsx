@@ -12,7 +12,7 @@ import ImageLightbox from './components/ImageLightbox'
 
 function App() {
   const [scrolled, setScrolled] = useState(false)
-  const [activeSkillTab, setActiveSkillTab] = useState('languages')
+  const [activeSkillTab, setActiveSkillTab] = useState('all')
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxImages, setLightboxImages] = useState([])
   const [lightboxIndex, setLightboxIndex] = useState(0)
@@ -94,6 +94,7 @@ function App() {
       { name: 'SQL', icon: '/SQLicon.png' },
       { name: 'PHP', icon: '/PHPicon.png' },
       { name: 'Python', icon: '/PYicon.png' },
+      { name: 'ABAP', icon: '/ABAPLogo.png' },
     ],
     tools: [
       { name: 'Git', icon: '/GITicon.png' },
@@ -104,6 +105,7 @@ function App() {
       { name: 'Figma', icon: '/FIGMAicon.png' },
       { name: 'WordPress', icon: '/WPicon.png' },
       { name: 'MySQL', icon: '/MYSQLicon.png' },
+      { name: 'SAP', icon: '/SAPLogo.png' },
     ],
     platforms: [
       { name: 'AWS', icon: '/AWSicon.png' },
@@ -114,17 +116,19 @@ function App() {
     ]
   }
 
+  skillsData.all = [...skillsData.languages, ...skillsData.tools, ...skillsData.platforms]
+
   return (
     <>
       {/* Custom Cursor */}
-      <TargetCursor 
+      <TargetCursor
         spinDuration={2}
         hideDefaultCursor={false}
         parallaxOn={true}
       />
 
       {/* Image Lightbox */}
-      <ImageLightbox 
+      <ImageLightbox
         images={lightboxImages}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
@@ -133,8 +137,8 @@ function App() {
 
       {/* Animated Squares Background */}
       <div className="squares-bg">
-        <Squares 
-          speed={0.3} 
+        <Squares
+          speed={0.3}
           squareSize={50}
           direction='diagonal'
           borderColor='rgba(139, 92, 246, 0.15)'
@@ -190,7 +194,7 @@ function App() {
                 onContactClick={handleContactClick}
               />
             </div>
-            
+
             {/* Hero Text Content */}
             <div className="hero-text-content">
               <span className="hero-greeting">
@@ -203,7 +207,7 @@ function App() {
                 <DecryptedText text="Web Developer" animateOn="view" speed={35} maxIterations={8} />
               </h2>
               <p className="hero-description">
-                <DecryptedText 
+                <DecryptedText
                   text="Passionate IT student with expertise in both frontend and backend development, specializing in backend architecture using React.js, Java Spring Boot, and Firebase. Dedicated to crafting efficient, scalable solutions while continuously expanding my technical horizons."
                   animateOn="view"
                   speed={20}
@@ -217,9 +221,9 @@ function App() {
                 </a>
                 <a href="/Resume.pdf" download="JohnWayneLargo_Resume.pdf" className="btn btn-primary cursor-target">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
                   Download Resume
                 </a>
@@ -246,11 +250,11 @@ function App() {
             <span className="section-number mono">01.</span>
             <h2 className="section-title">ABOUT ME</h2>
           </div>
-          
+
           <div className="about-grid">
             <div className="about-text">
               <p>
-                <DecryptedText 
+                <DecryptedText
                   text="A motivated Information Technology student specializing in full-stack development with hands-on experience in React.js, Java Spring Boot, and Firebase."
                   animateOn="view"
                   speed={30}
@@ -259,7 +263,7 @@ function App() {
                 />
               </p>
               <p>
-                <DecryptedText 
+                <DecryptedText
                   text="I have a proven ability to build practical, user-friendly solutions and I'm committed to continuous learning and collaborative team success. Currently pursuing my Bachelor's degree at Cebu Institute of Technology – University."
                   animateOn="view"
                   speed={30}
@@ -268,7 +272,7 @@ function App() {
                 />
               </p>
               <p>
-                <DecryptedText 
+                <DecryptedText
                   text="Based in Talisay City, Philippines, I'm actively seeking opportunities to apply my skills in real-world projects and grow as a developer."
                   animateOn="view"
                   speed={30}
@@ -276,7 +280,7 @@ function App() {
                   revealDirection="start"
                 />
               </p>
-              
+
               <div className="about-stats">
                 <div className="stat-item cursor-target">
                   <div className="stat-number">
@@ -304,7 +308,7 @@ function App() {
                 </div>
               </div>
             </div>
-            
+
             <div className="about-image">
               <div className="about-image-wrapper">
                 <div className="code-block">
@@ -365,29 +369,35 @@ function App() {
             <span className="section-number mono">02.</span>
             <h2 className="section-title">TECH STACK</h2>
           </div>
-          
+
           <div className="skills-tabs">
             <div className="skills-tab-buttons">
-              <button 
+              <button
+                className={`skills-tab-btn ${activeSkillTab === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveSkillTab('all')}
+              >
+                All
+              </button>
+              <button
                 className={`skills-tab-btn ${activeSkillTab === 'languages' ? 'active' : ''}`}
                 onClick={() => setActiveSkillTab('languages')}
               >
                 Languages
               </button>
-              <button 
+              <button
                 className={`skills-tab-btn ${activeSkillTab === 'tools' ? 'active' : ''}`}
                 onClick={() => setActiveSkillTab('tools')}
               >
                 Tools
               </button>
-              <button 
+              <button
                 className={`skills-tab-btn ${activeSkillTab === 'platforms' ? 'active' : ''}`}
                 onClick={() => setActiveSkillTab('platforms')}
               >
                 Platforms
               </button>
             </div>
-            
+
             <div className="skills-card-grid">
               {skillsData[activeSkillTab].map((skill, index) => (
                 <div key={index} className="skill-card cursor-target fade-scroll">
@@ -411,7 +421,7 @@ function App() {
             <span className="section-number mono">03.</span>
             <h2 className="section-title">KEY PROJECTS</h2>
           </div>
-          
+
           <div className="projects-grid">
             {/* Project 1 - TimEd */}
             <div className="project-card cursor-target fade-scroll">
@@ -420,7 +430,7 @@ function App() {
                 <h3 className="project-title"><DecryptedText text="TimEd" animateOn="view" speed={40} maxIterations={8} /></h3>
                 <p className="project-subtitle"><DecryptedText text="Smart Time-In/Time-Out System (Capstone)" animateOn="view" speed={25} maxIterations={10} /></p>
                 <p className="project-description">
-                  <DecryptedText 
+                  <DecryptedText
                     text="A comprehensive time tracking solution featuring a web application and native Android component for seamless employee time management."
                     animateOn="view"
                     speed={25}
@@ -439,8 +449,18 @@ function App() {
                   <span>Firebase</span>
                   <span>Kotlin</span>
                 </div>
+                <div style={{ marginTop: '1.5rem' }}>
+                  <button className="btn btn-outline cursor-target" onClick={() => openLightbox(['/TimEdCongrats.png'])}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 15c-3.31 0-6-2.69-6-6V4h12v5c0 3.31-2.69 6-6 6z" />
+                      <path d="M12 15v7" />
+                      <path d="M8 22h8" />
+                    </svg>
+                    View Award
+                  </button>
+                </div>
               </div>
-              <div 
+              <div
                 className="project-visual project-visual-image project-clickable"
                 onClick={() => openLightbox(['/TimEd.png', '/TPOSTER.png'])}
               >
@@ -450,7 +470,7 @@ function App() {
                 </div>
               </div>
             </div>
-            
+
             {/* Project 2 - WasteWise */}
             <div className="project-card cursor-target fade-scroll">
               <div className="project-info">
@@ -458,7 +478,7 @@ function App() {
                 <h3 className="project-title"><DecryptedText text="WasteWise" animateOn="view" speed={40} maxIterations={8} /></h3>
                 <p className="project-subtitle"><DecryptedText text="Hackathon Finalist: Garbage Management System" animateOn="view" speed={25} maxIterations={10} /></p>
                 <p className="project-description">
-                  <DecryptedText 
+                  <DecryptedText
                     text="A civic feedback system that achieved Finalist status at the May 2025 Hackathon, enabling communities to report and track waste disposal issues."
                     animateOn="view"
                     speed={25}
@@ -476,8 +496,18 @@ function App() {
                   <span>Open Street View</span>
                   <span>AI Integration</span>
                 </div>
+                <div style={{ marginTop: '1.5rem' }}>
+                  <button className="btn btn-outline cursor-target" onClick={() => openLightbox(['/Hackathon.jpg'])}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 15c-3.31 0-6-2.69-6-6V4h12v5c0 3.31-2.69 6-6 6z" />
+                      <path d="M12 15v7" />
+                      <path d="M8 22h8" />
+                    </svg>
+                    View Award
+                  </button>
+                </div>
               </div>
-              <div 
+              <div
                 className="project-visual project-visual-image project-clickable"
                 onClick={() => openLightbox(['/WasteWise.png', '/Hackathon.jpg'])}
               >
@@ -498,7 +528,7 @@ function App() {
             <span className="section-number mono">04.</span>
             <h2 className="section-title">EDUCATIONAL BACKGROUND</h2>
           </div>
-          
+
           <div className="education-timeline">
             {/* Elementary */}
             <div className="timeline-item fade-scroll">
@@ -573,9 +603,9 @@ function App() {
             <span className="section-number mono">05.</span>
             <h2 className="section-title">CERTIFICATIONS & AWARDS</h2>
           </div>
-          
+
           <div className="awards-grid-wide">
-            <GlareHover 
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -593,8 +623,8 @@ function App() {
                 </div>
               </div>
             </GlareHover>
-            
-            <GlareHover 
+
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -612,8 +642,8 @@ function App() {
                 </div>
               </div>
             </GlareHover>
-            
-            <GlareHover 
+
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -631,8 +661,8 @@ function App() {
                 </div>
               </div>
             </GlareHover>
-            
-            <GlareHover 
+
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -650,8 +680,8 @@ function App() {
                 </div>
               </div>
             </GlareHover>
-            
-            <GlareHover 
+
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -673,7 +703,7 @@ function App() {
               </div>
             </GlareHover>
 
-            <GlareHover 
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -695,7 +725,7 @@ function App() {
               </div>
             </GlareHover>
 
-            <GlareHover 
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -716,8 +746,30 @@ function App() {
                 </div>
               </div>
             </GlareHover>
-            
-            <GlareHover 
+
+            <GlareHover
+              className="award-card-glare cursor-target fade-scroll"
+              glareColor="#9664f1"
+              glareOpacity={0.3}
+              borderColor="rgba(139, 92, 246, 0.3)"
+              background="var(--bg-card)"
+            >
+              <div className="award-card-inner">
+                <div className="award-card-image" onClick={() => openLightbox(['/SAPCert.PNG'])}>
+                  <img src="/SAPCert.PNG" alt="SAP Certificate" />
+                  <div className="award-image-overlay"></div>
+                </div>
+                <div className="award-card-content">
+                  <h4><DecryptedText text="SAP Certification" animateOn="view" speed={30} maxIterations={8} /></h4>
+                  <span className="award-year">2025</span>
+                  <a href="https://www.credly.com/badges/12ae5cf2-3366-4e5b-9f97-039c61722686" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
+                </div>
+              </div>
+            </GlareHover>
+
+            <GlareHover
               className="award-card-glare cursor-target fade-scroll"
               glareColor="#9664f1"
               glareOpacity={0.3}
@@ -746,7 +798,7 @@ function App() {
             <span className="section-number mono">06.</span>
             <h2 className="section-title">ACADEMIC PERFORMANCE</h2>
           </div>
-          
+
           <div className="academics-content">
             <div className="academics-info">
               <h3><DecryptedText text="Cebu Institute of Technology – University" animateOn="view" speed={25} maxIterations={12} /></h3>
@@ -754,20 +806,20 @@ function App() {
               <p className="academics-location"><DecryptedText text="N. Bacalso Avenue, Cebu City, Philippines" animateOn="view" speed={20} maxIterations={10} /></p>
               <p className="academics-graduation"><DecryptedText text="Expected Graduation: May 2026" animateOn="view" speed={20} maxIterations={10} /></p>
             </div>
-            
+
             <div className="academics-cta">
               <p className="academics-description">
                 <DecryptedText text="View my complete academic transcript and grades to see my dedication to excellence in my studies." animateOn="view" speed={25} maxIterations={12} />
               </p>
-              <a 
-                href="/grades.pdf" 
+              <a
+                href="/grades.pdf"
                 download="JohnWayneLargo_Grades.pdf"
                 className="btn btn-primary cursor-target"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
                 Download Grades (PDF)
               </a>
@@ -783,7 +835,7 @@ function App() {
             <span className="section-number mono">07.</span>
             <h2 className="section-title contact-title">GET IN <span className="highlight">TOUCH</span></h2>
           </div>
-          
+
           <div className="contact-grid">
             {/* Left Side - Contact Info */}
             <div className="contact-info fade-scroll">
@@ -791,7 +843,7 @@ function App() {
                 <DecryptedText text="Let's work together!" animateOn="view" speed={30} maxIterations={10} />
               </h3>
               <p className="contact-info-text">
-                <DecryptedText 
+                <DecryptedText
                   text="Have a project in mind or want to collaborate? Feel free to reach out. I'm always open to discussing new opportunities."
                   animateOn="view"
                   speed={25}
@@ -799,51 +851,52 @@ function App() {
                   revealDirection="start"
                 />
               </p>
-              
+
               <div className="contact-details">
                 <a href="mailto:johnlargo91@gmail.com" className="contact-detail-item cursor-target">
                   <div className="contact-detail-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                      <polyline points="22,6 12,13 2,6"/>
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
                     </svg>
                   </div>
                   <span>johnlargo91@gmail.com</span>
                 </a>
-                
+
                 <div className="contact-detail-item">
                   <div className="contact-detail-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                      <circle cx="12" cy="10" r="3"/>
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
                     </svg>
                   </div>
                   <span>Talisay City, Cebu, Philippines</span>
                 </div>
               </div>
-              
+
               <div className="contact-socials">
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="LinkedIn">
+                {/*<a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="LinkedIn">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="Facebook">
+                */}
+                <a href="https://www.facebook.com/john.wayne.largo.2024/" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="Facebook">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                   </svg>
                 </a>
                 <a href="https://github.com/xxmu53xx" target="_blank" rel="noopener noreferrer" className="contact-social-btn cursor-target" aria-label="GitHub">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                   </svg>
                 </a>
               </div>
             </div>
-            
+
             {/* Right Side - Contact Form */}
-            <form 
-              className="contact-form fade-scroll" 
+            <form
+              className="contact-form fade-scroll"
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.target);
@@ -856,45 +909,45 @@ function App() {
               }}
             >
               <div className="form-group">
-                <input 
-                  type="text" 
-                  name="name" 
-                  placeholder="Your Name" 
-                  required 
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  required
                   className="form-input cursor-target"
                 />
               </div>
               <div className="form-group">
-                <input 
-                  type="email" 
-                  name="email" 
-                  placeholder="Your Email" 
-                  required 
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  required
                   className="form-input cursor-target"
                 />
               </div>
               <div className="form-group">
-                <input 
-                  type="text" 
-                  name="subject" 
-                  placeholder="Subject" 
-                  required 
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  required
                   className="form-input cursor-target"
                 />
               </div>
               <div className="form-group">
-                <textarea 
-                  name="message" 
-                  placeholder="Your Message" 
-                  rows="5" 
-                  required 
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  rows="5"
+                  required
                   className="form-textarea cursor-target"
                 ></textarea>
               </div>
               <button type="submit" className="btn btn-primary form-submit cursor-target">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
                 Send Message
               </button>
@@ -915,18 +968,18 @@ function App() {
           <div className="footer-social">
             <a href="mailto:Johnlargo91@gmail.com" aria-label="Email" className="cursor-target">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
               </svg>
             </a>
             <a href="https://github.com/xxmu53xx" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="cursor-target">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="cursor-target">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
           </div>

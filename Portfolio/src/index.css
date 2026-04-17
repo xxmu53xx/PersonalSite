@@ -40,8 +40,8 @@
   --font-mono: 'JetBrains Mono', monospace;
   
   /* Spacing */
-  --section-padding: clamp(4rem, 10vh, 8rem);
-  --container-width: min(90%, 1200px);
+  --section-padding: clamp(3rem, 8vh, 6rem);
+  --container-width: min(90%, 1000px);
   
   /* Effects */
   --glow-purple: 0 0 40px rgba(139, 92, 246, 0.3);
@@ -73,11 +73,23 @@ body {
 body::after {
   content: '';
   position: fixed;
-  top: -30%;
-  right: -20%;
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+  top: -25%;
+  right: -15%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  bottom: -20%;
+  left: -10%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.07) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
@@ -96,19 +108,19 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-  font-size: clamp(3.5rem, 12vw, 10rem);
+  font-size: clamp(2.2rem, 7vw, 5rem);
 }
 
 h2 {
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
 }
 
 h3 {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
 }
 
 p {
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-size: clamp(0.875rem, 1.1vw, 0.975rem);
 }
 
 a {
