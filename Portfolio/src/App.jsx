@@ -620,6 +620,9 @@ function App() {
                 <div className="award-card-content">
                   <h4><DecryptedText text="AWS Architecture Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
                   <span className="award-year">2025</span>
+                  <a href="https://www.credly.com/badges/ba074bb9-b2f4-4a45-bf05-7bab9b73ab7e/public_url" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
                 </div>
               </div>
             </GlareHover>
@@ -639,6 +642,9 @@ function App() {
                 <div className="award-card-content">
                   <h4><DecryptedText text="AWS Cloud Foundations Certificate" animateOn="view" speed={30} maxIterations={8} /></h4>
                   <span className="award-year">2025</span>
+                  <a href="https://www.credly.com/badges/5c3ca3ab-dee7-4abb-ba00-d8846ceafe65/public_url" target="_blank" rel="noopener noreferrer" className="award-link">
+                    Link Here
+                  </a>
                 </div>
               </div>
             </GlareHover>
